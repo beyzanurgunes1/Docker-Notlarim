@@ -100,5 +100,82 @@ Docker version: sistemde yüklü olan docker CLI ve docker deamon versiyonların
  
  ![docker8](https://user-images.githubusercontent.com/55952111/187979728-bb8606e6-5ec2-4cfc-aa36-a2d206d4bbf1.JPG)
 
+**DOCKER KATMANLI DOSYA SİSTEMİ YAPISI**
+
+Docker depolama yapısında union file system kullanır.
+
+Docker image'ları mevcut bir base image üzerine inşaa edilir. Yapılan her değişiklik katman olarak eklenir. Katmanlar ayrı dosya olarak depolanır.
+Docker image'den container oluştururken image'ın kopyasını oluşturup container yaratmaz. Image readonly olarak yüklenir.
+Bunun üzerine boş bir yazılabilir katman ekler ve container bu şekilde çalıştırılır. Container'da yapılan değişiklikler yazılabilir katmanda yapılır ve sadece o container için geçerlidir.
+
+![dockerUnionFile](https://user-images.githubusercontent.com/55952111/188208058-21bca815-6353-4846-a5d7-78e5814e33c9.JPG)
+
+
+
+Docker tüm image'leri katmanlar halinde tuttuğundan aynı katmanı iki kez barındırmak/transfer etmek zorunda kalmıyor.
+
+Docker container prune: çalışmayan containerları siler.
+
+Docker image prune: çalışmayan image'ları siler.
+
+Docker image pull alpine: docker hub'daki alpine image'ını sisteme çeker.
+
+![alistirma1 2](https://user-images.githubusercontent.com/55952111/188207748-59e59b56-09ae-4f2e-adab-618f36a91e6f.JPG)
+
+
+**DOCKER CONTAİNER YAŞAM SÜRESİ**
+
+Container'da tüm ayarlamalar image kısmında yapılır.
+
+Container tek uygulama çalıştırması için dizayn edilir.
+
+Sorun durumunda saniyeler içerisinde kopya oluşturulabilir.(aynı image'dan)
+
+Sorun container'a bağlanarak çözülmez. Yeni container yaratılır. Eğer sorun ayarlar/config ile ilgiliyse image aşamasında çözülür.
+
+Sürekli yeni veriler eklenen bir uygulamayı image haline getirip container çalıştırdığımızı düşünelim. container'da sorun oldu ve yeni container oluşturduk. Bu durumda eski veriler yazılabilir katmana kaydedildiği için yeni container üzerinde bu verilere erişemem. Bu yüzde container yaşam süresinden daha uzun süre saklamam gereken verileri container dışında erişilebilir ve paylaşılabilir olarak ayarlamam gerekir. Bunu volume ile sağlarız. Container silinse bile volume silinmeyeceğinden veriler kaybolmaz.
+
+Docker volume create: yeni volume yaratır.
+
+Docker volume inspect volumeAdı: volume detaylarını görüntüler.
+
+Docker container run -it -v volumeAdı:/dosyaAdı imageAdı: Container oluşturup volume bağlanır. (mount işlemi)
+
+![DockerVolume](https://user-images.githubusercontent.com/55952111/188208187-373b0255-d448-4872-9d86-96345f899160.JPG)
+
+
+
+Bir volume birden fazla container bağlayabilirim. Bu iki container'dan da volume verilerine erişebilirim.
+
+Volume'un mount edildiği klasör mevcut değilse;
+klasörü yaratır ve volume'de hangi dosyalar varsa klasörde de o görünür.(Volume boş ise boş görünür)
+
+Volume, image'da mevcut bir klasöre mount edilirse;
+Klasör boşsa volume içindeki dosyalar klasörde görünür.
+Klasörde dosya var ve volume boş ise klasördeki doyalar volume'e kopyalanır.
+Klasörde dosya var ya da yok volum'de varsa klasörde volumdeki dosyalar görünür.
+
+BİND MOUNTS:
+
+Host üzerindeki bir klasör ya da dosyayı container içine map etme işlemi. (örnek bind mound komutu aşağıdadır.)
+
+Docker container run -d -p 80:80 -v (Bilgisayarımdaki klasör adresi):(oluşturduğum container içindeki klasör adresi) imageAdı
+Bu komut ile bilgisayarımda belirttiğim klasördeki dosyaları oluşturduğum containerdaki klasöre mount et diyorum.
+Yani container'daki klasörde benim bilgisayarımdaki klasör görünsün.)
+
+![alistirma7](https://user-images.githubusercontent.com/55952111/188207921-f90e2c49-1893-44d4-a079-7672e2573292.JPG)
+
+
+Bind mounds- volume farkı:
+
+Bind mounds'da volume adı girilen yere bilgisayarımdaki klasörün adresini giriyorum. Volume'ler docker'ın kendi objesiyken bind mounds ile bilgiayarımdaki klasörü volume olarak ayarlayabiliyorum.
+
+
+
+
+
+
+
+
  
 
