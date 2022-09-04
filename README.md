@@ -19,20 +19,20 @@ Image şablonunun çalışır halidir.Container yapısı ile izolasyon sağlanı
 Container içinde işletim sistemi çekirdeğine ihtiyaç yok.
 
 SANALLAŞTIRMA: 
-Fiziksel bir makine üzerine birden fazla sanal makine kurmamıza izin veren sistemdir.
+Fiziki bir makine üzerine birden fazla sanal makine kurmamıza izin veren sistemdir.
 Sanallaştırma ile kaynak israfı azaltılır.
 Aynı işletim sistemi üzerine birden fazla uygulama yüklemektten kaçınmamızın sebebi birbirlerine bağımlı olmalarınıı istemememiz.
 Windows/Mac üzerine docker kurduğumuzda docker arkada linux yüklü sanal makineyi ayağa kaldırır ve docker deamon'u buraya yükler.
 
-VİRTUAL MACHİNE: Fiziksel makine konusunda tasarruf sağlar ama her uygulama için ayrı işletim sistemi gerekir.
+VIRTUAL MACHINE: Fizikİ makine konusunda tasarruf sağlar ama her uygulama için ayrı işletim sistemi gerekir.
 
-CONTAİNER - VİRTUAL MACHİNE FARKLARI:
+CONTAİNER - VIRTUAL MACHINE FARKLARI:
 
 Container uygulama izolasyonu sağlar, virtual machine işletim sistemi izolasyonu sağlar.
 container virtual machine'e göre çok daha hızlıdır.
 Container virtual machine'e göre daha kolay taşınabilir.(image halinde taşınarak her yerde aynı şekilde çalışır.)
 
-----------------------------------------------------**DOCKER 101**--------------------------------------------------------------------------------------
+----------------------------------------------------**DOCKER CONTAİNER 101**--------------------------------------------------------------------------------------
 
 Docker version: sistemde yüklü olan docker CLI ve docker deamon versiyonlarını listeler.
 (server'dan sonuç alamazsak ya docker deamon çalışmıyor ya da client deamon'a bağlanamıyordur.)
@@ -47,7 +47,7 @@ Docker version: sistemde yüklü olan docker CLI ve docker deamon versiyonların
  
  ![docker1](https://user-images.githubusercontent.com/55952111/187977167-c312e98e-66d0-4ab6-8c3d-32d92dee3d0d.JPG)
  
- Docker image: image'ları listeler.
+ Docker images: image'ları listeler ("docker image ls" de aynı işlevi görür.)
  
  ![docker3](https://user-images.githubusercontent.com/55952111/187977732-8928fe2a-4517-4cab-8bc9-47d87060726e.JPG)
 
@@ -148,12 +148,12 @@ Docker container run -it -v volumeAdı:/dosyaAdı imageAdı: Container oluşturu
 Bir volume birden fazla container bağlayabilirim. Bu iki container'dan da volume verilerine erişebilirim.
 
 Volume'un mount edildiği klasör mevcut değilse;
-klasörü yaratır ve volume'de hangi dosyalar varsa klasörde de o görünür.(Volume boş ise boş görünür)
+-klasörü yaratır ve volume'de hangi dosyalar varsa klasörde de o görünür.(Volume boş ise boş görünür)
 
 Volume, image'da mevcut bir klasöre mount edilirse;
-Klasör boşsa volume içindeki dosyalar klasörde görünür.
-Klasörde dosya var ve volume boş ise klasördeki doyalar volume'e kopyalanır.
-Klasörde dosya var ya da yok volum'de varsa klasörde volumdeki dosyalar görünür.
+-Klasör boşsa volume içindeki dosyalar klasörde görünür.
+-Klasörde dosya var ve volume boş ise klasördeki doyalar volume'e kopyalanır.
+-Klasörde dosya var ya da yok volum'de varsa klasörde volumdeki dosyalar görünür.
 
 BİND MOUNTS:
 
@@ -170,7 +170,172 @@ Bind mounds- volume farkı:
 
 Bind mounds'da volume adı girilen yere bilgisayarımdaki klasörün adresini giriyorum. Volume'ler docker'ın kendi objesiyken bind mounds ile bilgiayarımdaki klasörü volume olarak ayarlayabiliyorum.
 
+----------------------------------------------------**DOCKER CONTAİNER 102**--------------------------------------------------------------------------------------
 
+DOCKER PLUGIN-DRİVER SİSTEMİ:
+
+Docker bize varsayılan olarak driver'lar ve pluginler sunar.  Dışarıdan da plugin ve driver yükleyebiliriz.
+Ayrıca kendi driver'larımızı yazmamıza da imkan sağlar.
+
+Volume Driver: volume yaratıp kullanmamızı sağlar.(Local driver ile local ortamda volume yaratılır.)
+
+Network Driver: Ağ altyapısının nasıl davranacağını ve ağa bağlı container'ların ne şekilde haberleşeceğini belirler.
+
+Docker'da container'ların birbirleriyle ve dış dünyayla haberleşmeleri, dışarıdan container'lara erişim sağlanması gibi tüm iletişim altyapısı docker network objeleriyle sağlanır. Network objeleri de çeşitli driver'lar ile yaratılır. Driver'lar sayesinde network'lere değişik özellikler kazandırılabilir.
+Docker üzerinde network driver yaratabileceğimiz 5 farklı driver mevcuttur.
+
+1) Bridge Driver: 
+
+   -Birden fazla ağdan tek, birleşik bir ağ yaratır.
+   -Varsayılan driver'dır (Network obj. yaratırken spesifik olarak belirtmezsem bridge driver ile yaratır.)
+   -Her docker kurulu sistemde üzerinde bridge driver ile yaratılmış aynı isimli network bulunur.
+   -Container yaratırken farklı bir şey belirtmediğim sürece bridge driver'a bağlanır.
+   
+   
+2) Host Driver:
+
+   -Her docker kurulu sistemde üzerinde host driver ile yaratılmış aynı isimli network bulunur.
+   -Host network'e bağlı container'da network izolasyonu olmaz. Sanki o host üzerinde çalışan bir uygulama gibi host'un ağ kaynaklarını kullanır.
+   -Container'ın bağlı olduğu host'un network'ü ile görüşmek istersem host driver kullanırım.
+   
+   
+3) MacVlan:
+
+   -MacVlan ile oluşturulan bir docker network objesine bağlı docker container'lara direkt birer mac adresi atayarak mevcut ağa bağlı
+    birer fiziki cihaz gibi davranmaları sağlanır.
+   -Docker network trafiğini container'a mac adresi üzerinden yönlendirir
+    (Ip routing yapmadan container'ın direkt olarak ağ ile haberleşmesi sağlanır.)
+    
+    
+4) None:
+
+   -Container'ın hiçbir şekilde ağ bağlantısının olmamasını sağlamak için container, none driver'la yaratılan network'e bağlanır.
+   
+   
+ 5) Overlay:
+ 
+    -Ayrı sistemler (hostlar) üzerindeki container'ların aynı ağda çalışıyor gibi davranmasını sağlar.
+   
+ 
+ 
+ 
+ 
+ Docker kurulduğunda otomatik olarak bridge, host ve none network objeleri yaratılır.
+ 
+ Docker Network ls: Sistemdeki network objelerini listeler.
+ 
+ Docker network inspect bridge: Bridge network objesinin tüm özelliklerini listeler.
+ 
+ CTRL + PQ: Container ile bağlantıyı keser ancak container'ı kapatmaz.
+ 
+ Ifconfig: Container içerisnde ağ ayarlarını gösterir.
+ 
+ Bir container'dan diğer container'a erişmek için container içerisinden ping atılır.(Ping + bağlanmak istenen container ip adresi ile)
+ 
+ Docker container run -it --name (containerAdı) --net host imageAdı sh: Bir container oluşturup host network'üne bağlar.
+ 
+ Docker container run -it --name (containerAdı) --net none imageAdı sh: Bir container oluşturup none network'üne bağlar.
+ 
+ 
+ PORT PUBLISH:
+ 
+ Aynı bridge network'e bağlı conttainer'lar birbirleriyle haberleşebilir ancak dışarıdan container içindeki servise erişmek için bu container'ın dış dünyaya açık         olması gerekir. Bu da port publish ile sağlanır. (-p veya --publish komutu ile)
+ 
+ Docker container run -d -p 8080:80 imageAdı: Host üzerinde container yaratıp hostun 8080 portuna gelen bütün istekleri yaratılan container'ın 80 portuna gönderir.
+ 
+ Aynı container içerisinde birden fazla port publish edebilirim.
+ Varsayılan olarak açılan port TCP'dir (UDP port açmak için ör; 53:53/udp şeklinde belirtilir.)
+ 
+ 
+ 
+Docker'da birden fazla container ile çalışırken daha karmaşık network topolojilerine ihtiyaç duyulabilir. Bunun için de yeni bridge network'ler oluşturulabilir.
+Ör; bir makine (host) üzerinde birbirleriyle iletişim kurması gereken 2 container ve bunlardan tamamen bağımsız 5 container çalışıyor olsun. Hepsi varsayılan bridge network üzerinde olduğundan bütün container'lar birbirleriyle haberleşebilecek ancak bu istediğimiz bie durum değil. Birbirleriyle haberleşmesi gerekmeyen container'ları farklı bridge neetwork'lere bağlayarak network izolasyonu sağlarım.
+
+Docker bridge network'ün ip aralığı vb. her şey default olarak gelir. Bridge network için farklı bir ip adres aralığı seçmem mümkün değil. Bu nedenle farklı bir subnet ihtiyacı duyarsam yeni bridge network yaratmam gerekir.
+
+
+KULLANICI TANIMLI BRIDGE:
+
+-Varsayılan bridge network'te tanımlı container'lar birbirlerini isimleriyle tanıyamaz (ortamda DNS hizmeti olmadığından). Eğer yeni bir bridge network yaratıp   container'ları buna bağlarsam container'lar artık birbirlerini isimleriyle de tanıyabilir (Docker kullanıcı tanımlı bridge networklerde basit DNS hizmeti de sağlar.)
+
+-Bir container bridge network' bağlıysa bu container'ın bridge network ile bağlantısı kesilemez ancak kullanıcının yarattığı bridge networklere bağlıysa bağlantısını kesebilirim (container çalışıyor olsa bile).
+
+Docker network create networkAdı: Network yaratır (default olarak bridge network oluşturur.)
+
+Docker network create --driver host : host network yaratır.
+
+Docker conntainer run -dit --name (containerAdı) --net (networkAdı) (imageAdı) sh: Container'ı detached + interaktif olarak yaratıp network'e bağlar.
+
+Docker attached (containerAdı): container içine girmemizi sağlar.
+
+Docker network create --driver = bridge -subnet 10.10.0.0/16 --ip range = 10.10.10.0/24 --gateway = 10.10.10.10 networkAdı:
+Kullanıcı tanımlı bridge network yaratılarak kendi ip adres aralıklarımı belirlememi sağlar. 
+
+Docker network connect (networkAdı) (containerAdı) : container kullanıcı tanımlı network'e bağlanır.
+
+Docker network disconnect (networkAdı) (containerAdı) : container network bağlantısı kesilir.
+
+Docker network rm (networkAdı): Bağlı container yoksa network'ü siler.
+
+
+
+LOGGING:
+
+Uygulama ve servisler adım adım hangi işlemleri gerçekleştirdiğini, hataları kaydeder. Bu işleme logging denir.
+Linux'da loglar dosyalara kaydedilir. Windows'da ise eventviewer altından erişilebilecek şekilde windows native logs altyapısına kaydedilir. Bunlar sistem loglarıdır.
+Bir de kullandığımız servis/uygulamaların oluşturduğu loglar var.
+(ör; nginx serviste access.log: her erişim denemesini kaydederken error.log: hataları kaydeder)
+
+
+Eğer fiziki/sanal linux sistem kullanıyorsak loglara o makineye bağlanarak ulaşırız. Container içerisindeki loglara erişme işlemini docker logs management komut sağlar.
+
+
+
+STDIN-STDOUT-STDERR:
+
+
+Stdin: Klavyeden veya başka bir uygulamadan giriş içerebilen akış
+
+Stdout: Uygulamanın normal çıktısı (Terminal üzerinde)
+
+Stderr: Uygulamanın hata mesajı göndermek için kullanılan çıktısı (Terminal üzerinde)
+
+Docker log altyapısı da stdout-stderr akışlarını izler ve mesajları gösterir.
+
+Docker logs (containerAdı): container çalıştığı andan bu komut girilene kadar oluşan bütün loglar listelenir.
+
+Docker logs --details (containerAdı): Bazı uygulamalar logları kısıtlı olarak gösterir. Detaylı olarak görmek için bu komut kullanılır.
+
+Docker logs -t (containerAdı): Bazı uygulamalar logların zamanlarını göstermez. Log zamanlarını görmek için bu komut kullanılır.
+
+Docker logs --until (zaman) (containerAdı): Belirtilen zamana kadar oluşan loglar listelenir.
+
+Docker logs --since (zaman) (containerAdı): Belirtilen zamandan beri oluşan loglar listelenir.
+
+Docker logs --tail 3 (containerAdı): son 3 log satırını listeler (3 yerine kaç gelirse sondan o kadar satır listelenir)
+
+Docker logs -f (containerAdı): Logları canlı olarak anında listeler (-f: follow anlamında)
+
+Docker container run --log -driver splunk (imageAdı):  Container'daki bütün logları splunk'ın merkezi sunucusuna gönderir.
+(Loglarla daha gelişmiş işlemler için)
+
+
+
+DOCKER STATS VE TOP:
+
+
+
+Docker top containerAdı: container içine girmeden çalışan uygulamalar listelenir.
+
+Docker stats: Docker host'un üzerinde çalışan bütün container'ları listeler ve yeniler (refresh). 
+Container'ın kullandığı memory, cpu gibi durmlara erişim sağlar. Sistemde oluşan yükü gözlemler. (CTRL + C ile çıkılır)
+
+Docker stats containerAdı: sadece belirtilen container'ın oluşturduğu yük, memory, cpu bilgileri listelenir.
+
+
+
+ 
+ 
 
 
 
