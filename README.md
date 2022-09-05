@@ -226,6 +226,10 @@ Docker üzerinde network driver yaratabileceğimiz 5 farklı driver mevcuttur.
  
  Docker network inspect bridge: Bridge network objesinin tüm özelliklerini listeler.
  
+ 
+ ![alistirma2 1inspect](https://user-images.githubusercontent.com/55952111/188512233-7f80d8b8-39b2-4906-bca5-ee6c99ae9208.JPG)
+
+
  CTRL + PQ: Container ile bağlantıyı keser ancak container'ı kapatmaz.
  
  Ifconfig: Container içerisnde ağ ayarlarını gösterir.
@@ -242,6 +246,9 @@ Docker üzerinde network driver yaratabileceğimiz 5 farklı driver mevcuttur.
  Aynı bridge network'e bağlı conttainer'lar birbirleriyle haberleşebilir ancak dışarıdan container içindeki servise erişmek için bu container'ın dış dünyaya açık         olması gerekir. Bu da port publish ile sağlanır. (-p veya --publish komutu ile)
  
  Docker container run -d -p 8080:80 imageAdı: Host üzerinde container yaratıp hostun 8080 portuna gelen bütün istekleri yaratılan container'ın 80 portuna gönderir.
+ 
+ ![alistirma2 3](https://user-images.githubusercontent.com/55952111/188512288-cfda8588-91ce-464f-a352-73a66a43c5aa.JPG)
+
  
  Aynı container içerisinde birden fazla port publish edebilirim.
  Varsayılan olarak açılan port TCP'dir (UDP port açmak için ör; 53:53/udp şeklinde belirtilir.)
@@ -270,6 +277,10 @@ Docker attached (containerAdı): container içine girmemizi sağlar.
 
 Docker network create --driver = bridge -subnet 10.10.0.0/16 --ip range = 10.10.10.0/24 --gateway = 10.10.10.10 networkAdı:
 Kullanıcı tanımlı bridge network yaratılarak kendi ip adres aralıklarımı belirlememi sağlar. 
+
+
+![Alistirma2 1](https://user-images.githubusercontent.com/55952111/188512132-a2c7ba3d-5989-4627-935e-a440f0414f61.JPG)
+
 
 Docker network connect (networkAdı) (containerAdı) : container kullanıcı tanımlı network'e bağlanır.
 
@@ -304,6 +315,9 @@ Docker log altyapısı da stdout-stderr akışlarını izler ve mesajları göst
 
 Docker logs (containerAdı): container çalıştığı andan bu komut girilene kadar oluşan bütün loglar listelenir.
 
+![alistirma2 4](https://user-images.githubusercontent.com/55952111/188512362-a503f90f-d3e1-4e31-a444-c84d0bab1788.JPG)
+
+
 Docker logs --details (containerAdı): Bazı uygulamalar logları kısıtlı olarak gösterir. Detaylı olarak görmek için bu komut kullanılır.
 
 Docker logs -t (containerAdı): Bazı uygulamalar logların zamanlarını göstermez. Log zamanlarını görmek için bu komut kullanılır.
@@ -315,6 +329,9 @@ Docker logs --since (zaman) (containerAdı): Belirtilen zamandan beri oluşan lo
 Docker logs --tail 3 (containerAdı): son 3 log satırını listeler (3 yerine kaç gelirse sondan o kadar satır listelenir)
 
 Docker logs -f (containerAdı): Logları canlı olarak anında listeler (-f: follow anlamında)
+
+![alistirma2 5](https://user-images.githubusercontent.com/55952111/188512390-8bc2e6e6-fe20-4095-aaef-1e10d0c74585.JPG)
+
 
 Docker container run --log -driver splunk (imageAdı):  Container'daki bütün logları splunk'ın merkezi sunucusuna gönderir.
 (Loglarla daha gelişmiş işlemler için)
@@ -328,9 +345,193 @@ DOCKER STATS VE TOP:
 Docker top containerAdı: container içine girmeden çalışan uygulamalar listelenir.
 
 Docker stats: Docker host'un üzerinde çalışan bütün container'ları listeler ve yeniler (refresh). 
-Container'ın kullandığı memory, cpu gibi durmlara erişim sağlar. Sistemde oluşan yükü gözlemler. (CTRL + C ile çıkılır)
+Container'ın kullandığı memory, cpu gibi durumlara erişim sağlar. Sistemde oluşan yükü gözlemler. (CTRL + C ile çıkılır)
+
+
+![DockerStats](https://user-images.githubusercontent.com/55952111/188512711-c38871bf-1edf-48a7-8488-986dfa5d51e0.JPG)
+
+
+
 
 Docker stats containerAdı: sadece belirtilen container'ın oluşturduğu yük, memory, cpu bilgileri listelenir.
+
+
+
+CONTAİNER CPU VE MEMORY LİMİTLERİ:
+
+
+Container'lar varsayılan olarak üzerinde çalıştıkları host sistemin cpu ve memory kaynaklarını bir kısıtlama olmadan kullanır. Birden çok container ile çalışırken bir container'dan diğerine cpu/memory kalmaması hataya neden olur.
+
+ `--memory =<limit>`: Container'a belirtilen limit kadar memory limiti verir.
+ 
+ `docker container run -d --memory = <limit> <imageAdı>`: Container oluşturup memory limiti verilir.
+ 
+ Container'a memory'e ek olarak swap alanı da tanıyabiliriz. Swap sayesinde memory'i tüketirse kullanabileceği ek bir alan daha olmuş olur.
+ 
+ `--memory -swap = <limit>`: Container' swap limiti verilmesini sağlar.
+ 
+ `docker container run -d --memory = <limit> --memory -swap = <limit> <imageAdı>` : Container oluşturup swap limiti verilir.
+ 
+ Cpu'da sınırlama yapmak için gereken hesaplama ve dağıtım işlemi karmaşık ve zahmetlidir. Bu yüzden sistemde işlemci (core) sayısından kısıtlama yapılır.
+ 
+ `--cpus = <core sayısı>`: Core sayısı kısıtlaması yapar.
+ 
+ `docker container run -d --cpus = <core sayısı> <imageAdı>`: Container oluşturup cpu yani core sayısı limiti verilir.
+ 
+ `--cpuset -cpus = <aralık>`: özel olarak bir aralık belirterek kullanılacak cpu'ları belirtir( `--cpuset -cpus = "0,3"`: cpu 0 ve cpu 3'ü kullan)
+ 
+ `docker container run -d --cpus = <core sayısı> --cpuset -cpus "<aralık>" <imageAdı>`: Container oluşturup core sayısı (cpu) kısıtı verip kullanılacak cpu'ları belirtiriz.
+ 
+ 
+ ENVIRONMENT VARIABLES (ORTAM DEĞİŞKENLERİ):
+ 
+ Sistem bazında yani işletim sisteminin tamamında geçerli olan, her yerden erişebilir/çağırılabilir olan değişkenlerdir.
+ 
+ Windows için;
+ 
+ -`get-childItem env`: Sistemdeki bütün environment değişkenleri görüntüler.
+ 
+ -`$Env: <değişkenAdı>` : Belirtilen değişkenin değerini gösterir.
+ 
+ -`$Env: <atananDeğer>`: Ortam değişkeni oluşturup değer atanır.
+ 
+ Linux için;
+ 
+ Bir container yaratıp `bash` komutuyla içine geçtikten sonra şu işlemler yapılabilir:
+ 
+    -`printenv`: Sistemde tanımlı tüm ortam değişkenlerini listeler.
+ 
+    -`echo $<ortam değişkeni>`: Belirtilen ortam değişkenini listeler.
+    
+    -`export <ortam değişkeni> = <değer>`: Ortam değişkeni oluşturulup değer atandı.
+    
+ DOCKER ENVIRONMENT VARIABLES (DOCKER ORTAM DEĞİŞKENLERİ):
+ 
+ Container ortamlarında image/container yaratılırken tanımlanan değerlerdir.
+ 
+ -`docker container run -it --env <değişkenAdı> = <değer> <imageAdı> bash`: Container yaratılırken ortam değişkeni oluşturuldu ve değer atandı.
+ 
+ Sistemde tanımlı ortam değişkeni değerini container'a aktarabilirim.
+ 
+     -`docker container run -it --env <ortam değişeni> <imageAdı> bash`: Host üzerinde yer alan ortam değişkeni continer içine atandı.
+     
+ Docker bütün ortam değişkenlerini dosyaya aktarıp o doya üzerinden tek seferde tanımlamamıza izin verir.
+ 
+     -`docker container run -it --env -file <dosya adı> <imageAdı> bash`: Docker belirtilen dosya içindeki tüm değerleri ortam değişkeni olarak container'a tanımlar.
+     
+     
+     
+     
+     
+ ![alistirma2 11](https://user-images.githubusercontent.com/55952111/188512570-dbca3084-a14e-4cb0-891c-a6aa3d348bb9.JPG)
+     
+     
+
+
+     
+ IMAGE VE REGISTRY :
+ 
+ Docker image registry: Docker image'larını depolayan sistemlerdir. En büyüğü docker hub'dır. Docker varsayılan image registry olarak docker hub ile haberleşir. Docker hub kendi repository'lerimizi yaratıp kendi yarattığımız docker image'larını depolamamızı sağlar.
+ 
+ Docker image'larına verilen isimler /tag'ler o image'ın depolandığı yeri de belirtir.
+ 
+ Docker'da her objenin ID'si vardır ve bunlarla tanınırlar.
+ 
+ 
+ Docker image isimlendirme yapısı: 
+ 
+      -image'lar `registry url/ repository: tag` şeklinde isimlendirilir (ör; docker.io/ubuntu: 18.04).
+      
+      -Eğer image registry varsayılan olan docker hub ise belirtilmesi gerekmez.
+     
+      -Tag kısmında versiyon belirtilir. Bir repository içinde birden fazla image versiyonu saklanabilir. Uygulamaya tag atamazsak docker varsayılan olarak latest tagını atar. Uygulama çağırırken de tag belirtilmezse varsayılan olarak latest'i çağırır.
+      
+      
+DOCKER IMAGE OLUŞTURMA 1)
+
+Docker image'ı oluşturmak için ilk önce dockerfile oluşturulur.
+
+Dockerfile talimatları: 
+
+      FROM: 
+            
+       -Her dockerfile'da bulunmak zorundadır.
+               
+       -Oluşturulacak image'ların hangi image'dan oluşturulacağını belirler.
+               
+       -"FROM <image>: tag" şeklinde kullanılır.
+               
+       
+      RUN: 
+      
+        -image oluşturulurken shell'de komut çalıştırmak için kullanılır.
+             
+        -"RUN <komut>" şeklinde kullanılır.(ör; RUN apt-get update)
+             
+      
+      WORKDIR:
+      
+      
+        - Cd komutuyla aynı işlevi görür ancak cd komutundan farkı workdır ile belirttiğimiz klasör yoksa oluşturulur.
+              
+        - Bir klasöre geçmek için kullanılır.
+              
+        - "WORKDIR <klasör_lokasyonu>" şeklinde kullanılır.
+              
+              
+      COPY:
+      
+      
+        - image içine dosya/klasör kopyalamak için kullanılır.
+              
+        - "COPY <dosya_lokasyonu>" şeklinde kullanılır.
+              
+              
+      EXPOSE:
+      
+      
+        - Bu image'dan oluşturulacak container'ların hangi portlar üzerinden erişilebileceğini yani hangi portların yayınlanacağını belirtir.
+              
+              
+        - EXPOSE port şeklinde kullanır. (Ör; EXPOSE 80/tcp)
+              
+              
+              
+      CMD: 
+      
+      
+        - image'den container yaratıldığında varsayılan olarak çalıştırmasını istediğimiz komutu belirtir.
+              
+        - "CMD <komut>" şeklinde kullanılır.
+              
+              
+              
+      HEALTHCHECK:
+       
+       
+        - Docker'a container'ın hala çalışıp çalışmadığını kontrol etmesini healthcheck ile söyleriz. Docker varsayılan olarak çalışan ilk prosesi izler. O çalııştığı süreece container çalışır. Docker container'ın düzgün çalışıp çalışmadığına bakmaz.
+             
+             
+        - "HEALTHCHECK <komut>" şeklinde çalışır.
+             
+      
+ 
+ 
+              
+              
+      
+               
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+
+ 
 
 
 
