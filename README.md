@@ -14,7 +14,7 @@ docker engine'i yönetmeyi sağlayan CLI(komut satırı arayüzü) ekranıdır.
 
 IMAGE: Bir uygulama ve o uygulamanın çalışması için gerekli ögelerin paketlenmiş halidir. Kernel içermez. Image bir şablondur.
 
-CONTAİNER : Docker Daemon tarafından Linux çekirdeği içerisinde birbirinden izole olarak çalıştırılan process’lerin her birine container denir. 
+CONTAINER : Docker Daemon tarafından Linux çekirdeği içerisinde birbirinden izole olarak çalıştırılan process’lerin her birine container denir. 
 Image şablonunun çalışır halidir.Container yapısı ile izolasyon sağlanır. Tek fiziksel makine tek işletim sistemi üzerine birçok container kurulabilir.
 Container içinde işletim sistemi çekirdeğine ihtiyaç yok.
 
@@ -26,7 +26,7 @@ Windows/Mac üzerine docker kurduğumuzda docker arkada linux yüklü sanal maki
 
 VIRTUAL MACHINE: Fizikİ makine konusunda tasarruf sağlar ama her uygulama için ayrı işletim sistemi gerekir.
 
-CONTAİNER - VIRTUAL MACHINE FARKLARI:
+CONTAINER - VIRTUAL MACHINE FARKLARI:
 
 Container uygulama izolasyonu sağlar, virtual machine işletim sistemi izolasyonu sağlar.
 container virtual machine'e göre çok daha hızlıdır.
@@ -37,52 +37,52 @@ Container virtual machine'e göre daha kolay taşınabilir.(image halinde taşı
 Docker version: sistemde yüklü olan docker CLI ve docker deamon versiyonlarını listeler.
 (server'dan sonuç alamazsak ya docker deamon çalışmıyor ya da client deamon'a bağlanamıyordur.)
 
- Docker info: Temel bütün bilgilere erişmemizi sağlar. (Kaç container ve kaç image var gibi)
+ `Docker info`: Temel bütün bilgilere erişmemizi sağlar. (Kaç container ve kaç image var gibi)
  
- Docker: Docker CLI'da kullanabileceğimiz komutları listeler.
+ `Docker`: Docker CLI'da kullanabileceğimiz komutları listeler.
  
- Docker --help: Bir şeyi nasıl kullanacağımızı hatırlamamıza yardım eder. (Daha detaylı aramak için ör; Docker image --help)
+ `Docker --help`: Bir şeyi nasıl kullanacağımızı hatırlamamıza yardım eder. (Daha detaylı aramak için ör; Docker image --help)
  
- Docker build --tag imageADI: image oluşturur.(Docker build image --tag'da aynı işlemi yapar.)
+ `Docker build --tag imageADI`: image oluşturur.(Docker build image --tag'da aynı işlemi yapar.)
  
  ![docker1](https://user-images.githubusercontent.com/55952111/187977167-c312e98e-66d0-4ab6-8c3d-32d92dee3d0d.JPG)
  
- Docker images: image'ları listeler ("docker image ls" de aynı işlevi görür.)
+ `Docker images`: image'ları listeler ("docker image ls" de aynı işlevi görür.)
  
  ![docker3](https://user-images.githubusercontent.com/55952111/187977732-8928fe2a-4517-4cab-8bc9-47d87060726e.JPG)
 
- Docker image rm: image'ı siler.
+ `Docker image rm`: image'ı siler.
  
  
- Docker container create: yeni bir container yaratır.
+ `Docker container create`: yeni bir container yaratır.
  
- Docker container start: container'ı başlatır.
+ `Docker container start`: container'ı başlatır.
  
- Docker container run: Container yaratıp başlatır.(create ve start'ı ayrı ayrı kullanmaktan daha pratik)
+ `Docker container run`: Container yaratıp başlatır.(create ve start'ı ayrı ayrı kullanmaktan daha pratik)
  
- Docker container run -d: Container'ı arka planda çalıştırır(detach olarak)
+ `Docker container run -d`: Container'ı arka planda çalıştırır(detach olarak)
  
- Docker container ls: çalışan container'ları listeler.
+ `Docker container ls`: çalışan container'ları listeler.
  
- Docker container ls -a: tüm container'ları listeler.
+ `Docker container ls -a`: tüm container'ları listeler.
  
  
  ![docker11](https://user-images.githubusercontent.com/55952111/187976205-64ea4b84-72cd-4908-b428-a9e0179d27ae.JPG)
 
- Docker container rm containerID: container'ı siler.
+ `Docker container rm <containerID>`: container'ı siler.
  
- Docker container rm -f containerID: çalışan container'ı zorla siler.
+ `Docker container rm -f <containerID>`: çalışan container'ı zorla siler.
  
  
- Docker container exec -it ContainerADI sh: çalışan container'a bağlanır.
+ `Docker container exec -it <ContainerADI> sh`: çalışan container'a bağlanır.
  
- exit komutu container'dan çıkmamızı sağlar.(container çalışmaya devam eder.)
+ `exit` komutu container'dan çıkmamızı sağlar.(container çalışmaya devam eder.)
  
- PS: Container'a bağlıyken çalışan uygulamaları gösterir.
+ `PS`: Container'a bağlıyken çalışan uygulamaları gösterir.
  
  PID 1 olan uygulama container başladığı anda çalışır.
  
- **RUN - CMD - ENTRYPOİNT**
+ **RUN - CMD - ENTRYPOINT**
  
  Dockerfile içinde kaç cmd olursa olsun hep en sonuncu çalışır.(ekrana o yazılır)
  
@@ -114,16 +114,16 @@ Bunun üzerine boş bir yazılabilir katman ekler ve container bu şekilde çal�
 
 Docker tüm image'leri katmanlar halinde tuttuğundan aynı katmanı iki kez barındırmak/transfer etmek zorunda kalmıyor.
 
-Docker container prune: çalışmayan containerları siler.
+`Docker container prune`: çalışmayan containerları siler.
 
-Docker image prune: çalışmayan image'ları siler.
+`Docker image prune`: çalışmayan image'ları siler.
 
-Docker image pull alpine: docker hub'daki alpine image'ını sisteme çeker.
+`Docker image pull alpine`: docker hub'daki alpine image'ını sisteme çeker.
 
 ![alistirma1 2](https://user-images.githubusercontent.com/55952111/188207748-59e59b56-09ae-4f2e-adab-618f36a91e6f.JPG)
 
 
-**DOCKER CONTAİNER YAŞAM SÜRESİ**
+**DOCKER CONTAINER YAŞAM SÜRESİ**
 
 Container'da tüm ayarlamalar image kısmında yapılır.
 
@@ -135,11 +135,15 @@ Sorun container'a bağlanarak çözülmez. Yeni container yaratılır. Eğer sor
 
 Sürekli yeni veriler eklenen bir uygulamayı image haline getirip container çalıştırdığımızı düşünelim. container'da sorun oldu ve yeni container oluşturduk. Bu durumda eski veriler yazılabilir katmana kaydedildiği için yeni container üzerinde bu verilere erişemem. Bu yüzde container yaşam süresinden daha uzun süre saklamam gereken verileri container dışında erişilebilir ve paylaşılabilir olarak ayarlamam gerekir. Bunu volume ile sağlarız. Container silinse bile volume silinmeyeceğinden veriler kaybolmaz.
 
-Docker volume create: yeni volume yaratır.
+`Docker volume create`: yeni volume yaratır.
 
-Docker volume inspect volumeAdı: volume detaylarını görüntüler.
+`Docker volume inspect <volumeAdı>`: volume detaylarını görüntüler.
 
-Docker container run -it -v volumeAdı:/dosyaAdı imageAdı: Container oluşturup volume bağlanır. (mount işlemi)
+`Docker container run -it -v <volumeAdı:/dosyaAdı> <imageAdı>`: Container oluşturup volume bağlanır. (mount işlemi)
+
+
+![volumeCreate](https://user-images.githubusercontent.com/55952111/188570245-954ff1e9-f43b-4394-91fc-b896b9810770.JPG)
+
 
 ![DockerVolume](https://user-images.githubusercontent.com/55952111/188208187-373b0255-d448-4872-9d86-96345f899160.JPG)
 
@@ -155,11 +159,11 @@ Volume, image'da mevcut bir klasöre mount edilirse;
 -Klasörde dosya var ve volume boş ise klasördeki doyalar volume'e kopyalanır.
 -Klasörde dosya var ya da yok volum'de varsa klasörde volumdeki dosyalar görünür.
 
-BİND MOUNTS:
+BIND MOUNTS:
 
 Host üzerindeki bir klasör ya da dosyayı container içine map etme işlemi. (örnek bind mound komutu aşağıdadır.)
 
-Docker container run -d -p 80:80 -v (Bilgisayarımdaki klasör adresi):(oluşturduğum container içindeki klasör adresi) imageAdı
+`Docker container run -d -p 80:80 -v <Bilgisayarımdaki klasör adresi>:<oluşturduğum container içindeki klasör adresi> <imageAdı>`
 Bu komut ile bilgisayarımda belirttiğim klasördeki dosyaları oluşturduğum containerdaki klasöre mount et diyorum.
 Yani container'daki klasörde benim bilgisayarımdaki klasör görünsün.)
 
@@ -172,49 +176,49 @@ Bind mounds'da volume adı girilen yere bilgisayarımdaki klasörün adresini gi
 
 ----------------------------------------------------**DOCKER CONTAİNER 102**--------------------------------------------------------------------------------------
 
-DOCKER PLUGIN-DRİVER SİSTEMİ:
+DOCKER PLUGIN-DRIVER SİSTEMİ:
 
 Docker bize varsayılan olarak driver'lar ve pluginler sunar.  Dışarıdan da plugin ve driver yükleyebiliriz.
 Ayrıca kendi driver'larımızı yazmamıza da imkan sağlar.
 
-Volume Driver: volume yaratıp kullanmamızı sağlar.(Local driver ile local ortamda volume yaratılır.)
+`Volume Driver`: volume yaratıp kullanmamızı sağlar.(Local driver ile local ortamda volume yaratılır.)
 
-Network Driver: Ağ altyapısının nasıl davranacağını ve ağa bağlı container'ların ne şekilde haberleşeceğini belirler.
+`Network Driver`: Ağ altyapısının nasıl davranacağını ve ağa bağlı container'ların ne şekilde haberleşeceğini belirler.
 
 Docker'da container'ların birbirleriyle ve dış dünyayla haberleşmeleri, dışarıdan container'lara erişim sağlanması gibi tüm iletişim altyapısı docker network objeleriyle sağlanır. Network objeleri de çeşitli driver'lar ile yaratılır. Driver'lar sayesinde network'lere değişik özellikler kazandırılabilir.
 Docker üzerinde network driver yaratabileceğimiz 5 farklı driver mevcuttur.
 
 1) Bridge Driver: 
 
-   -Birden fazla ağdan tek, birleşik bir ağ yaratır.
-   -Varsayılan driver'dır (Network obj. yaratırken spesifik olarak belirtmezsem bridge driver ile yaratır.)
-   -Her docker kurulu sistemde üzerinde bridge driver ile yaratılmış aynı isimli network bulunur.
-   -Container yaratırken farklı bir şey belirtmediğim sürece bridge driver'a bağlanır.
+   - Birden fazla ağdan tek, birleşik bir ağ yaratır.
+   - Varsayılan driver'dır (Network obj. yaratırken spesifik olarak belirtmezsem bridge driver ile yaratır.)
+   - Her docker kurulu sistemde üzerinde bridge driver ile yaratılmış aynı isimli network bulunur.
+   - Container yaratırken farklı bir şey belirtmediğim sürece bridge driver'a bağlanır.
    
    
 2) Host Driver:
 
-   -Her docker kurulu sistemde üzerinde host driver ile yaratılmış aynı isimli network bulunur.
-   -Host network'e bağlı container'da network izolasyonu olmaz. Sanki o host üzerinde çalışan bir uygulama gibi host'un ağ kaynaklarını kullanır.
-   -Container'ın bağlı olduğu host'un network'ü ile görüşmek istersem host driver kullanırım.
+   - Her docker kurulu sistemde üzerinde host driver ile yaratılmış aynı isimli network bulunur.
+   - Host network'e bağlı container'da network izolasyonu olmaz. Sanki o host üzerinde çalışan bir uygulama gibi host'un ağ kaynaklarını kullanır.
+   - Container'ın bağlı olduğu host'un network'ü ile görüşmek istersem host driver kullanırım.
    
    
 3) MacVlan:
 
-   -MacVlan ile oluşturulan bir docker network objesine bağlı docker container'lara direkt birer mac adresi atayarak mevcut ağa bağlı
+   - MacVlan ile oluşturulan bir docker network objesine bağlı docker container'lara direkt birer mac adresi atayarak mevcut ağa bağlı
     birer fiziki cihaz gibi davranmaları sağlanır.
-   -Docker network trafiğini container'a mac adresi üzerinden yönlendirir
+   - Docker network trafiğini container'a mac adresi üzerinden yönlendirir
     (Ip routing yapmadan container'ın direkt olarak ağ ile haberleşmesi sağlanır.)
     
     
 4) None:
 
-   -Container'ın hiçbir şekilde ağ bağlantısının olmamasını sağlamak için container, none driver'la yaratılan network'e bağlanır.
+   - Container'ın hiçbir şekilde ağ bağlantısının olmamasını sağlamak için container, none driver'la yaratılan network'e bağlanır.
    
    
  5) Overlay:
  
-    -Ayrı sistemler (hostlar) üzerindeki container'ların aynı ağda çalışıyor gibi davranmasını sağlar.
+    - Ayrı sistemler (hostlar) üzerindeki container'ların aynı ağda çalışıyor gibi davranmasını sağlar.
    
  
  
@@ -222,30 +226,30 @@ Docker üzerinde network driver yaratabileceğimiz 5 farklı driver mevcuttur.
  
  Docker kurulduğunda otomatik olarak bridge, host ve none network objeleri yaratılır.
  
- Docker Network ls: Sistemdeki network objelerini listeler.
+ `Docker Network ls`: Sistemdeki network objelerini listeler.
  
- Docker network inspect bridge: Bridge network objesinin tüm özelliklerini listeler.
+ `Docker network inspect bridge`: Bridge network objesinin tüm özelliklerini listeler.
  
  
  ![alistirma2 1inspect](https://user-images.githubusercontent.com/55952111/188512233-7f80d8b8-39b2-4906-bca5-ee6c99ae9208.JPG)
 
 
- CTRL + PQ: Container ile bağlantıyı keser ancak container'ı kapatmaz.
+ `CTRL + PQ`: Container ile bağlantıyı keser ancak container'ı kapatmaz.
  
- Ifconfig: Container içerisnde ağ ayarlarını gösterir.
+ `Ifconfig`: Container içerisnde ağ ayarlarını gösterir.
  
  Bir container'dan diğer container'a erişmek için container içerisinden ping atılır.(Ping + bağlanmak istenen container ip adresi ile)
  
- Docker container run -it --name (containerAdı) --net host imageAdı sh: Bir container oluşturup host network'üne bağlar.
+ `Docker container run -it --name <containerAdı> --net host <imageAdı> sh`: Bir container oluşturup host network'üne bağlar.
  
- Docker container run -it --name (containerAdı) --net none imageAdı sh: Bir container oluşturup none network'üne bağlar.
+ `Docker container run -it --name <containerAdı> --net none imageAdı sh`: Bir container oluşturup none network'üne bağlar.
  
  
  PORT PUBLISH:
  
  Aynı bridge network'e bağlı conttainer'lar birbirleriyle haberleşebilir ancak dışarıdan container içindeki servise erişmek için bu container'ın dış dünyaya açık         olması gerekir. Bu da port publish ile sağlanır. (-p veya --publish komutu ile)
  
- Docker container run -d -p 8080:80 imageAdı: Host üzerinde container yaratıp hostun 8080 portuna gelen bütün istekleri yaratılan container'ın 80 portuna gönderir.
+ `Docker container run -d -p 8080:80 <imageAdı>`: Host üzerinde container yaratıp hostun 8080 portuna gelen bütün istekleri yaratılan container'ın 80 portuna gönderir.
  
  ![alistirma2 3](https://user-images.githubusercontent.com/55952111/188512288-cfda8588-91ce-464f-a352-73a66a43c5aa.JPG)
 
@@ -267,26 +271,26 @@ KULLANICI TANIMLI BRIDGE:
 
 -Bir container bridge network' bağlıysa bu container'ın bridge network ile bağlantısı kesilemez ancak kullanıcının yarattığı bridge networklere bağlıysa bağlantısını kesebilirim (container çalışıyor olsa bile).
 
-Docker network create networkAdı: Network yaratır (default olarak bridge network oluşturur.)
+`Docker network create <networkAdı>`: Network yaratır (default olarak bridge network oluşturur.)
 
-Docker network create --driver host : host network yaratır.
+`Docker network create --driver host` : host network yaratır.
 
-Docker conntainer run -dit --name (containerAdı) --net (networkAdı) (imageAdı) sh: Container'ı detached + interaktif olarak yaratıp network'e bağlar.
+`Docker container run -dit --name <containerAdı> --net <networkAdı> <imageAdı> sh`: Container'ı detached + interaktif olarak yaratıp network'e bağlar.
 
-Docker attached (containerAdı): container içine girmemizi sağlar.
+`Docker attached <containerAdı>`: container içine girmemizi sağlar.
 
-Docker network create --driver = bridge -subnet 10.10.0.0/16 --ip range = 10.10.10.0/24 --gateway = 10.10.10.10 networkAdı:
+`Docker network create --driver = bridge -subnet 10.10.0.0/16 --ip range = 10.10.10.0/24 --gateway = 10.10.10.10 <networkAdı>`:
 Kullanıcı tanımlı bridge network yaratılarak kendi ip adres aralıklarımı belirlememi sağlar. 
 
 
 ![Alistirma2 1](https://user-images.githubusercontent.com/55952111/188512132-a2c7ba3d-5989-4627-935e-a440f0414f61.JPG)
 
 
-Docker network connect (networkAdı) (containerAdı) : container kullanıcı tanımlı network'e bağlanır.
+`Docker network connect <networkAdı> <containerAdı>` : container kullanıcı tanımlı network'e bağlanır.
 
-Docker network disconnect (networkAdı) (containerAdı) : container network bağlantısı kesilir.
+`Docker network disconnect <networkAdı> <containerAdı>` : container network bağlantısı kesilir.
 
-Docker network rm (networkAdı): Bağlı container yoksa network'ü siler.
+`Docker network rm <networkAdı>`: Bağlı container yoksa network'ü siler.
 
 
 
@@ -305,35 +309,35 @@ Eğer fiziki/sanal linux sistem kullanıyorsak loglara o makineye bağlanarak ul
 STDIN-STDOUT-STDERR:
 
 
-Stdin: Klavyeden veya başka bir uygulamadan giriş içerebilen akış
+`Stdin`: Klavyeden veya başka bir uygulamadan giriş içerebilen akış
 
-Stdout: Uygulamanın normal çıktısı (Terminal üzerinde)
+`Stdout`: Uygulamanın normal çıktısı (Terminal üzerinde)
 
-Stderr: Uygulamanın hata mesajı göndermek için kullanılan çıktısı (Terminal üzerinde)
+`Stderr`: Uygulamanın hata mesajı göndermek için kullanılan çıktısı (Terminal üzerinde)
 
 Docker log altyapısı da stdout-stderr akışlarını izler ve mesajları gösterir.
 
-Docker logs (containerAdı): container çalıştığı andan bu komut girilene kadar oluşan bütün loglar listelenir.
+`Docker logs <containerAdı>`: container çalıştığı andan bu komut girilene kadar oluşan bütün loglar listelenir.
 
 ![alistirma2 4](https://user-images.githubusercontent.com/55952111/188512362-a503f90f-d3e1-4e31-a444-c84d0bab1788.JPG)
 
 
-Docker logs --details (containerAdı): Bazı uygulamalar logları kısıtlı olarak gösterir. Detaylı olarak görmek için bu komut kullanılır.
+`Docker logs --details <containerAdı>`: Bazı uygulamalar logları kısıtlı olarak gösterir. Detaylı olarak görmek için bu komut kullanılır.
 
-Docker logs -t (containerAdı): Bazı uygulamalar logların zamanlarını göstermez. Log zamanlarını görmek için bu komut kullanılır.
+`Docker logs -t <containerAdı>`: Bazı uygulamalar logların zamanlarını göstermez. Log zamanlarını görmek için bu komut kullanılır.
 
-Docker logs --until (zaman) (containerAdı): Belirtilen zamana kadar oluşan loglar listelenir.
+`Docker logs --until <zaman> <containerAdı>`: Belirtilen zamana kadar oluşan loglar listelenir.
 
-Docker logs --since (zaman) (containerAdı): Belirtilen zamandan beri oluşan loglar listelenir.
+`Docker logs --since <zaman> <containerAdı>`: Belirtilen zamandan beri oluşan loglar listelenir.
 
-Docker logs --tail 3 (containerAdı): son 3 log satırını listeler (3 yerine kaç gelirse sondan o kadar satır listelenir)
+`Docker logs --tail 3 <containerAdı>`: son 3 log satırını listeler (3 yerine kaç gelirse sondan o kadar satır listelenir)
 
-Docker logs -f (containerAdı): Logları canlı olarak anında listeler (-f: follow anlamında)
+`Docker logs -f <containerAdı>`: Logları canlı olarak anında listeler (-f: follow anlamında)
 
 ![alistirma2 5](https://user-images.githubusercontent.com/55952111/188512390-8bc2e6e6-fe20-4095-aaef-1e10d0c74585.JPG)
 
 
-Docker container run --log -driver splunk (imageAdı):  Container'daki bütün logları splunk'ın merkezi sunucusuna gönderir.
+`Docker container run --log -driver splunk <imageAdı>`:  Container'daki bütün logları splunk'ın merkezi sunucusuna gönderir.
 (Loglarla daha gelişmiş işlemler için)
 
 
@@ -342,9 +346,9 @@ DOCKER STATS VE TOP:
 
 
 
-Docker top containerAdı: container içine girmeden çalışan uygulamalar listelenir.
+`Docker top <containerAdı>`: container içine girmeden çalışan uygulamalar listelenir.
 
-Docker stats: Docker host'un üzerinde çalışan bütün container'ları listeler ve yeniler (refresh). 
+`Docker stats`: Docker host'un üzerinde çalışan bütün container'ları listeler ve yeniler (refresh). 
 Container'ın kullandığı memory, cpu gibi durumlara erişim sağlar. Sistemde oluşan yükü gözlemler. (CTRL + C ile çıkılır)
 
 
@@ -353,11 +357,11 @@ Container'ın kullandığı memory, cpu gibi durumlara erişim sağlar. Sistemde
 
 
 
-Docker stats containerAdı: sadece belirtilen container'ın oluşturduğu yük, memory, cpu bilgileri listelenir.
+`Docker stats <containerAdı>`: sadece belirtilen container'ın oluşturduğu yük, memory, cpu bilgileri listelenir.
 
 
 
-CONTAİNER CPU VE MEMORY LİMİTLERİ:
+CONTAINER CPU VE MEMORY LİMİTLERİ:
 
 
 Container'lar varsayılan olarak üzerinde çalıştıkları host sistemin cpu ve memory kaynaklarını bir kısıtlama olmadan kullanır. Birden çok container ile çalışırken bir container'dan diğerine cpu/memory kalmaması hataya neden olur.
@@ -399,25 +403,25 @@ Container'lar varsayılan olarak üzerinde çalıştıkları host sistemin cpu v
  
  Bir container yaratıp `bash` komutuyla içine geçtikten sonra şu işlemler yapılabilir:
  
-    -`printenv`: Sistemde tanımlı tüm ortam değişkenlerini listeler.
+ -`printenv`: Sistemde tanımlı tüm ortam değişkenlerini listeler.
  
-    -`echo $<ortam değişkeni>`: Belirtilen ortam değişkenini listeler.
+ -`echo $<ortam değişkeni>`: Belirtilen ortam değişkenini listeler.
     
-    -`export <ortam değişkeni> = <değer>`: Ortam değişkeni oluşturulup değer atandı.
+ -`export <ortam değişkeni> = <değer>`: Ortam değişkeni oluşturulup değer atandı.
     
  DOCKER ENVIRONMENT VARIABLES (DOCKER ORTAM DEĞİŞKENLERİ):
  
  Container ortamlarında image/container yaratılırken tanımlanan değerlerdir.
  
- -`docker container run -it --env <değişkenAdı> = <değer> <imageAdı> bash`: Container yaratılırken ortam değişkeni oluşturuldu ve değer atandı.
+ -`docker container run -it --env <değişkenAdı> = <değer> <imageAdı> bash` : Container yaratılırken ortam değişkeni oluşturuldu ve değer atandı.
  
  Sistemde tanımlı ortam değişkeni değerini container'a aktarabilirim.
  
-     -`docker container run -it --env <ortam değişeni> <imageAdı> bash`: Host üzerinde yer alan ortam değişkeni continer içine atandı.
+ -`docker container run -it --env <ortam değişeni> <imageAdı> bash` : Host üzerinde yer alan ortam değişkeni continer içine atandı.
      
  Docker bütün ortam değişkenlerini dosyaya aktarıp o doya üzerinden tek seferde tanımlamamıza izin verir.
  
-     -`docker container run -it --env -file <dosya adı> <imageAdı> bash`: Docker belirtilen dosya içindeki tüm değerleri ortam değişkeni olarak container'a tanımlar.
+ -`docker container run -it --env -file <dosya adı> <imageAdı> bash` : Docker belirtilen dosya içindeki tüm değerleri ortam değişkeni olarak container'a tanımlar.
      
      
      
@@ -440,11 +444,11 @@ Container'lar varsayılan olarak üzerinde çalıştıkları host sistemin cpu v
  
  Docker image isimlendirme yapısı: 
  
-      -image'lar `registry url/ repository: tag` şeklinde isimlendirilir (ör; docker.io/ubuntu: 18.04).
+ -image'lar `registry url/ repository: tag` şeklinde isimlendirilir (ör; docker.io/ubuntu: 18.04).
       
-      -Eğer image registry varsayılan olan docker hub ise belirtilmesi gerekmez.
+ -Eğer image registry varsayılan olan docker hub ise belirtilmesi gerekmez.
      
-      -Tag kısmında versiyon belirtilir. Bir repository içinde birden fazla image versiyonu saklanabilir. Uygulamaya tag atamazsak docker varsayılan olarak latest tagını atar. Uygulama çağırırken de tag belirtilmezse varsayılan olarak latest'i çağırır.
+ -Tag kısmında versiyon belirtilir. Bir repository içinde birden fazla image versiyonu saklanabilir. Uygulamaya tag atamazsak docker varsayılan olarak latest tagını atar. Uygulama çağırırken de tag belirtilmezse varsayılan olarak latest'i çağırır.
       
       
 DOCKER IMAGE OLUŞTURMA 1)
@@ -453,66 +457,66 @@ Docker image'ı oluşturmak için ilk önce dockerfile oluşturulur.
 
 Dockerfile talimatları: 
 
-      FROM: 
+FROM: 
             
-       -Her dockerfile'da bulunmak zorundadır.
+- Her dockerfile'da bulunmak zorundadır.
                
-       -Oluşturulacak image'ların hangi image'dan oluşturulacağını belirler.
+- Oluşturulacak image'ların hangi image'dan oluşturulacağını belirler.
                
-       -"FROM <image>: tag" şeklinde kullanılır.
+- ` FROM <image>: tag `şeklinde kullanılır.
                
        
-      RUN: 
+RUN: 
       
-        -image oluşturulurken shell'de komut çalıştırmak için kullanılır.
+- image oluşturulurken shell'de komut çalıştırmak için kullanılır.
              
-        -"RUN <komut>" şeklinde kullanılır.(ör; RUN apt-get update)
+- `RUN <komut>`şeklinde kullanılır.(ör; RUN apt-get update)
              
       
-      WORKDIR:
+WORKDIR:
       
       
-        - Cd komutuyla aynı işlevi görür ancak cd komutundan farkı workdır ile belirttiğimiz klasör yoksa oluşturulur.
+- Cd komutuyla aynı işlevi görür ancak cd komutundan farkı workdır ile belirttiğimiz klasör yoksa oluşturulur.
               
-        - Bir klasöre geçmek için kullanılır.
+- Bir klasöre geçmek için kullanılır.
               
-        - "WORKDIR <klasör_lokasyonu>" şeklinde kullanılır.
+- `WORKDIR <klasör_lokasyonu>` şeklinde kullanılır.
               
               
-      COPY:
+ COPY:
       
       
-        - image içine dosya/klasör kopyalamak için kullanılır.
+ - image içine dosya/klasör kopyalamak için kullanılır.
               
-        - "COPY <dosya_lokasyonu>" şeklinde kullanılır.
+ - `COPY <dosya_lokasyonu>` şeklinde kullanılır.
               
               
-      EXPOSE:
+ EXPOSE:
       
       
-        - Bu image'dan oluşturulacak container'ların hangi portlar üzerinden erişilebileceğini yani hangi portların yayınlanacağını belirtir.
+  - Bu image'dan oluşturulacak container'ların hangi portlar üzerinden erişilebileceğini yani hangi portların yayınlanacağını belirtir.
               
               
-        - EXPOSE port şeklinde kullanır. (Ör; EXPOSE 80/tcp)
+  - `EXPOSE port` şeklinde kullanır. (Ör; EXPOSE 80/tcp)
               
               
               
-      CMD: 
+  CMD: 
       
       
-        - image'den container yaratıldığında varsayılan olarak çalıştırmasını istediğimiz komutu belirtir.
+  - image'den container yaratıldığında varsayılan olarak çalıştırmasını istediğimiz komutu belirtir.
               
-        - "CMD <komut>" şeklinde kullanılır.
+  - `CMD <komut>` şeklinde kullanılır.
               
               
               
-      HEALTHCHECK:
+  HEALTHCHECK:
        
        
-        - Docker'a container'ın hala çalışıp çalışmadığını kontrol etmesini healthcheck ile söyleriz. Docker varsayılan olarak çalışan ilk prosesi izler. O çalııştığı süreece container çalışır. Docker container'ın düzgün çalışıp çalışmadığına bakmaz.
+  - Docker'a container'ın hala çalışıp çalışmadığını kontrol etmesini healthcheck ile söyleriz. Docker varsayılan olarak çalışan ilk prosesi izler. O çalııştığı süreece container çalışır. Docker container'ın düzgün çalışıp çalışmadığına bakmaz.
              
              
-        - "HEALTHCHECK <komut>" şeklinde çalışır.
+  - `HEALTHCHECK <komut>` şeklinde çalışır.
              
       
  
