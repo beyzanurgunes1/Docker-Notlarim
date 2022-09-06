@@ -34,7 +34,7 @@ Container virtual machine'e göre daha kolay taşınabilir.(image halinde taşı
 
 ----------------------------------------------------**DOCKER CONTAİNER 101**--------------------------------------------------------------------------------------
 
-Docker version: sistemde yüklü olan docker CLI ve docker deamon versiyonlarını listeler.
+`Docker version`: sistemde yüklü olan docker CLI ve docker deamon versiyonlarını listeler.
 (server'dan sonuç alamazsak ya docker deamon çalışmıyor ya da client deamon'a bağlanamıyordur.)
 
  `Docker info`: Temel bütün bilgilere erişmemizi sağlar. (Kaç container ve kaç image var gibi)
@@ -156,7 +156,7 @@ Volume'un mount edildiği klasör mevcut değilse;
 
 Volume, image'da mevcut bir klasöre mount edilirse;
 -Klasör boşsa volume içindeki dosyalar klasörde görünür.
--Klasörde dosya var ve volume boş ise klasördeki doyalar volume'e kopyalanır.
+-Klasörde dosya var ve volume boş ise klasördeki dosyalar volume'e kopyalanır.
 -Klasörde dosya var ya da yok volum'de varsa klasörde volumdeki dosyalar görünür.
 
 BIND MOUNTS:
@@ -165,7 +165,7 @@ Host üzerindeki bir klasör ya da dosyayı container içine map etme işlemi. (
 
 `Docker container run -d -p 80:80 -v <Bilgisayarımdaki klasör adresi>:<oluşturduğum container içindeki klasör adresi> <imageAdı>`
 Bu komut ile bilgisayarımda belirttiğim klasördeki dosyaları oluşturduğum containerdaki klasöre mount et diyorum.
-Yani container'daki klasörde benim bilgisayarımdaki klasör görünsün.)
+(Yani container'daki klasörde benim bilgisayarımdaki klasör görünsün.)
 
 ![alistirma7](https://user-images.githubusercontent.com/55952111/188207921-f90e2c49-1893-44d4-a079-7672e2573292.JPG)
 
@@ -269,7 +269,7 @@ KULLANICI TANIMLI BRIDGE:
 
 -Varsayılan bridge network'te tanımlı container'lar birbirlerini isimleriyle tanıyamaz (ortamda DNS hizmeti olmadığından). Eğer yeni bir bridge network yaratıp   container'ları buna bağlarsam container'lar artık birbirlerini isimleriyle de tanıyabilir (Docker kullanıcı tanımlı bridge networklerde basit DNS hizmeti de sağlar.)
 
--Bir container bridge network' bağlıysa bu container'ın bridge network ile bağlantısı kesilemez ancak kullanıcının yarattığı bridge networklere bağlıysa bağlantısını kesebilirim (container çalışıyor olsa bile).
+-Bir container bridge network'e bağlıysa bu container'ın bridge network ile bağlantısı kesilemez ancak kullanıcının yarattığı bridge networklere bağlıysa bağlantısını kesebilirim (container çalışıyor olsa bile).
 
 `Docker network create <networkAdı>`: Network yaratır (default olarak bridge network oluşturur.)
 
@@ -517,9 +517,50 @@ WORKDIR:
              
              
   - `HEALTHCHECK <komut>` şeklinde çalışır.
+  
+  
+  
+  DOCKER IMAGE OLUŞTURMA 2-3)
+  
+  Docker'da image oluşturmak için öncelikle bir klasör yaratıp image içine eklemek istediğimiz tüm dosyaları koyarız. Dsaha sonra dockerfile yaratıp içine gerekli talimatları yazarız(FROM, WORKDIR, CMD gibi). Bu adımı da tamamladıktan sonra terminalde cd komutuyla klasöre geçip `docker image build -t <tagAdı> . ` komutu yazılır.
+  
+  
+  ![webKoduImageHaleGetirme](https://user-images.githubusercontent.com/55952111/188732617-fa09258a-1c2b-4604-88f0-706b15f0779b.JPG)
+
+  
+  Docker bu işlemden sonra dockerfile'ı alıp en üstten aşağıya doğru işlemeye başlar. Her adımdaki değişiklikleri ayrı katman birer katman olarak kaydeder. İşlem bitince en son haline bizim verdiğimiz tag'i atayarak image'ı oluşturur.
+  
+  `docker image build -t <tagAdı> -f <dosyaAdı> .`: Farklı tür bir dosyadan(txt vs.) image oluşturmak istersem bu komutu kullanırım.
+  
+  -f bu image'ın hangi dosyadan oluşturulacağını belirtmek için kullanılır (Eğer dosyamın adı dockerfile şeklinde ve sonunda da herhangi bir uzantı yoksa -f kullanmama gerek yok). Sondaki nokta ile de dockerfile dosyasının talimatlarını bu klasörde yerine getireceğimi belirtiyorum.
+  
+  `docker image history <tagAdı>`: image geçmişini görüntüler. Aynı zamanda image içerisindeki katmanları da görüntüler.
              
-      
+  DOCKER IMAGE OLUŞTURMA 4)
+  
+  
+  Bir uygulamayı image haline getirmek için önce bir işletim sistemi base image'ı seçmeliyim
+  (FROM ubuntu:18.04 komutuyla bu işlemi gerçekleştiririm.)
+  Daha sonra `RUN apt-get update -y` komutuyla bunu güncelleyeceğim.
+  Ardından `RUN apt-get install <uygulamanın runtime'ı>` komutuyla uygulamamın çalışması için gerekli runtime platformu yükleyeceğim (java runtime, pyton runtime gibi). Fakat bu doğru bir yöntem değil. Kullandığımız hemen hemen her uygulamanın docker hub'da official image'i bulunur. Base image üzerine uygulamamın çalışacağı plattformu kullanmak yerine onun kurulu olduğu resmi (official) image'ı kullanmak daha kolay ve daha güvenilirdir.
  
+ 
+ 
+ LINUX SHELL:
+ 
+ `docker run -it ubuntu bash`: Ubuntu sisteme geçmeyi sağlar(ubuntu/linux shell'e geçer).
+ 
+ ![ubuntuBash](https://user-images.githubusercontent.com/55952111/188732242-6e242b15-88f0-4393-a8a7-f661de9a7992.JPG)
+
+`docker ps aux`: sistemde çalışan tüm işlemleri listeler.
+
+`docker ps aux | grep <anahtar_kelime>`:Sistemdeki tüm işlemlerden sadece anahtar kelimeyi içeren satırları listeler.
+
+`docker ps aux | less`:çalışan tüm işlemleri tek tek ekrana getirir. (enter'a her basıldığında bir satır gelecek şekilde)
+
+`cat/etc/passwd`:sistemdeki bütün kullanıcı bilgilerini listeler.
+
+
  
               
               
