@@ -125,7 +125,7 @@ Docker tüm image'leri katmanlar halinde tuttuğundan aynı katmanı iki kez bar
 
 **DOCKER CONTAINER YAŞAM SÜRESİ**
 
-Container'da tüm ayarlamalar image kısmında yapılır.
+Container'da gerekli tüm ayarlamalar image yaratma sırasında yapılır.
 
 Container tek uygulama çalıştırması için dizayn edilir.
 
