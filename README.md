@@ -1,4 +1,4 @@
-# Docker
+# Docker Notlarım
  
 DOCKER: Aynı işletim sistemi üzerinde, yüzlerce hatta binlerce birbirinden izole ve bağımsız containerlar sayesinde sanallaştırma sağlayan teknolojidir.
 Açık kaynaklıdır. Uygulamaları altyapıdan bağımsız kılar. Böylece yazılım üretim ve dağıtım süreci hızlanır.
